@@ -1,0 +1,1203 @@
+[19-12-2024 13:06] Manjunath Soudi: !DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Location Search with Gas Concentration</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@googlemaps/js-api-loader@1.0.0"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Location Search</h1>
+    <div class="search-area">
+      <input type="text" id="search-input" placeholder="Enter a location">
+      <button id="search-btn">Search</button>
+      <button id="voice-btn">🔊 Voice Search</button>
+    </div>
+    <div id="map"></div>
+    <div id="result">
+      <h2>Gas Concentrations:</h2>
+      <p id="location">Location: Not selected</p>
+      <p id="methane">Methane (CH<sub>4</sub>): N/A</p>
+      <p id="co2">Carbon Dioxide (CO<sub>2</sub>): N/A</p>
+      <p id="o2">Oxygen (O<sub>2</sub>): N/A</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+---
+
+CSS (style.css)
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.search-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#search-input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#search-btn,
+#voice-btn {
+  padding: 10px 20px;
+  margin-left: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#search-btn:hover,
+#voice-btn:hover {
+  background-color: #0056b3;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+  margin-top: 20px;
+  border: 2px solid #333;
+}
+
+#result {
+  margin-top: 20px;
+  background: white;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+
+---
+
+JavaScript (script.js)
+
+// Load Google Maps API
+const loader = new google.maps.plugins.loader.Loader({
+  apiKey: "YOUR_GOOGLE_MAPS_API_KEY",
+  libraries: ["places"],
+});
+
+loader.load().then(() => {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 37.7749, lng: -122.4194 }, // Default to San Francisco
+    zoom: 10,
+  });
+
+  const searchInput = document.getElementById("search-input");
+  const searchButton = document.getElementById("search-btn");
+  const voiceButton = document.getElementById("voice-btn");
+
+  const infoWindow = new google.maps.InfoWindow();
+  const geocoder = new google.maps.Geocoder();
+
+  searchButton.addEventListener("click", () => {
+    const address = searchInput.value;
+    searchLocation(address, map, infoWindow, geocoder);
+  });
+
+  voiceButton.addEventListener("click", () => {
+    const speech = new SpeechSynthesisUtterance("Please enter a location to search.");
+    window.speechSynthesis.speak(speech);
+  });
+});
+
+// Search for location and update map
+function searchLocation(address, map, infoWindow, geocoder) {
+  if (!address) {
+    alert("Please enter a location.");
+    return;
+  }
+
+  geocoder.geocode({ address }, (results, status) => {
+    if (status === "OK") {
+      const location = results[0].geometry.location;
+      map.setCenter(location);
+      infoWindow.setContent(results[0].formatted_address);
+      infoWindow.setPosition(location);
+      infoWindow.open(map);
+
+      // Simulate gas concentration data
+      const methane = (Math.random() * 10).toFixed(2);
+      const co2 = (Math.random() * 400).toFixed(2);
+      const o2 = (Math.random() * 21).toFixed(2);
+
+      document.getElementById("location").innerText = Location: ${results[0].formatted_address};
+      document.getElementById("methane").innerText = Methane (CH₄): ${methane} ppm;
+      document.getElementById("co2").innerText = Carbon Dioxide (CO₂): ${co2} ppm;
+      document.getElementById("o2").innerText = Oxygen (O₂): ${o2} %;
+
+      // AI Voice Output
+      const speech = new SpeechSynthesisUtterance(
+        Location: ${results[0].formatted_address}. Methane concentration: ${methane} ppm. Carbon Dioxide: ${co2} ppm. Oxygen: ${o2} percent.
+      );
+      window.speechSynthesis.speak(speech);
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+}
+[19-12-2024 13:31] .: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Portfolio</title>
+
+    <!-- Link to Google Fonts (Poppins Font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Apply Poppins font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background: url('https://via.placeholder.com/1500x1000') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            background-image: url("https://www.shutterstock.com/image-photo/calm-weather-on-sea-ocean-600nw-2212935531.jpg");
+        }
+
+        /* Intro Screen */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .intro-content {
+            text-align: center;
+        }
+
+        .intro-content h1 {
+            font-size: 4rem;
+            color: white;
+            font-weight: 600;
+            animation: zoomIn 3s ease-out forwards;
+        }
+
+        /* Zoom-In Animation for the Logo */
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Main Content (Initially Hidden) */
+        #content {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        /* Layout */
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 20px 0;
+            position: relative;
+            border-bottom: 2px solid #fff;
+        }
+
+        /* Layout of the header */
+        header .logo {
+            font-size: 2rem;
+            margin-left: 20px;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            margin-right: 20px;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        #theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            color: white;
+        }
+
+        #theme-toggle:hover {
+            color: #ff6347;
+        }
+
+        #hero {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #hero .name {
+            color: #ff6347;
+            font-weight: 600;
+        }
+
+        .cta-btn {
+            background-color: #ff6347;
+            padding: 12px 30px;
+            border: none;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .cta-btn:hover {
+            background-color: #ff4500;
+        }
+
+        section {
+            padding: 40px 0;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #about, #skills, #projects, #contact, #portfolio-request {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .skills-list li {
+            background: #444;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+
+        .project-cards {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .project-card {
+            background-color: #333;
+            padding: 20px;
+            width: 30%;
+            border-radius: 10px;
+            text-align:center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-btn {
+            background-color: #ff6347;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .project-btn:hover {
+            background: #e55347;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #ff6347;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff4500;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: #ff6347;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Screen -->
+    <div id="intro-screen">
+        <div class="intro-content">
+            <h1 class="logo">PERSONAL PORTFOLIO</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <header>
+            <div class="container header-container">
+                <h1 class="logo">PERSONAL PORTFOLIO</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#portfolio-request">Create Portfolio</a></li>
+                    </ul>
+                </nav>
+                <!-- Dark/Light Mode Toggle -->
+                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+            </div>
+        </header>
+
+        <section id="hero">
+            <div class="hero-content">
+                <h2>Hi, I'm <span class="name">WILL SMITH</span></h2>
+                <p>Web Developer | Designer | Programmer</p>
+                <a href="#projects" class="cta-btn">See My Work</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>About Me</h2>
+                <p>Hello! I'm a passionate web developer with a love for creating dynamic and user-friendly websites. With experience in HTML, CSS, JavaScript, and various frameworks, I aim to build high-quality and responsive web applications.</p>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2>Skills</h2>
+                <ul class="skills-list">
+                    <li>HTML & CSS</li>
+                    <li>JavaScript</li>
+                    <li>React.js</li>
+                    <li>Node.js</li>
+                    <li>Python</li>
+                    <li>Git & GitHub</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2>Projects</h2>
+                <div class="project-cards">
+                    <div class="project-card">
+                        <h3>Project 1</h3>
+                        <p>Website built using HTML, CSS, and JavaScript.</p>
+                        <button class="project-btn" onclick="window.location.href='https://your-project-link1.com'">View Details</button>
+                    </div>
+                    <div class="project-card">
+                        <h3>Project 2</h3>
+                        <p>Responsive e-commerce site with React and Node.js.</p>
+                        <button class="project-btn" onclick="window.location.href='https://your-project-link2.com'">View Details</button>
+                    </div>
+                    <div class="project-card">
+                        <h3>Project 3</h3>
+                        <p>Mobile app using Flutter for cross-platform development.</p>
+                        <button class="project-btn" onclick="window.location.href='https://your-project-link3.com'">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Info</h2>
+                <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+                <p>Phone: +123 456 7890</p>
+                <p>Location: Your City, Your Country</p>
+            </div>
+        </section>
+
+        <section id="portfolio-request">
+            <div class="container">
+                <h2>Create Your Portfolio</h2>
+                <p>If you are looking to create your personal portfolio, feel free to contact us by filling out the form below. We'll help you get started on showcasing your work.</p>
+                <form id="portfolio-form">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+
+                    <button type="submit">Request Portfolio</button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2024 John Doe | All Rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            // Set a delay for the intro screen to disappear
+            setTimeout(() => {
+                // Hide the intro screen with a fade-out effect
+                document.getElementById('intro-screen').style.opacity = 0;
+
+                // After the fade-out, hide the intro screen and show the content
+                setTimeout(() => {
+                    document.getElementById('intro-screen').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    document.getElementById('content').style.opacity = 1;
+                }, 1000);  // Match this with the duration of the fade-out
+            }, 4000);  // Set how long the intro screen stays visible (4 seconds)
+        });
+    </script>
+</body>
+</html>
+[19-12-2024 13:50] .: <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gas Monitoring Map with Search</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 80vh;
+      width: 100%;
+    }
+    .controls {
+      padding: 15px;
+      background: #f4f4f4;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="controls">
+    <button onclick="readAloud()">Read Gas Levels Aloud</button>
+    <button onclick="stopReading()">Stop Reading Aloud</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script>
+    // Initialize the map
+    const map = L.map('map').setView([20, 0], 2); // Centered globally
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Simulated gas data for multiple locations
+    const gasData = [
+      { location: "New York, USA", coords: [40.7128, -74.0060], methane: 2.1, co2: 400, oxygen: 20.9 },
+      { location: "Mumbai, India", coords: [19.0760, 72.8777], methane: 1.8, co2: 405, oxygen: 20.8 },
+      { location: "Sydney, Australia", coords: [-33.8688, 151.2093], methane: 1.5, co2: 398, oxygen: 21.0 },
+      { location: "London, UK", coords: [51.5074, -0.1278], methane: 1.9, co2: 402, oxygen: 20.7 }
+    ];
+
+    // Add markers to the map
+    gasData.forEach(data => {
+      const { location, coords, methane, co2, oxygen } = data;
+      const popupContent = `
+        <strong>${location}</strong><br>
+        Methane: ${methane} ppm<br>
+        CO₂: ${co2} ppm<br>
+        Oxygen: ${oxygen}%`;
+      L.marker(coords)
+        .addTo(map)
+        .bindPopup(popupContent)
+        .openPopup();
+    });
+
+    // Add a search bar to the map
+    const geocoder = L.Control.geocoder({
+      defaultMarkGeocode: false
+    })
+      .on('markgeocode', function (e) {
+        const bbox = e.geocode.bbox;
+        const bounds = L.latLngBounds(bbox.getSouthWest(), bbox.getNorthEast());
+        map.fitBounds(bounds); // Zoom to searched location
+
+        // Show a message about gas levels if available
+        const foundData = gasData.find(data =>
+          map.getBounds().contains(L.latLng(data.coords))
+        );
+
+        if (foundData) {
+          alert(`Gas levels at ${foundData.location}:
+Methane: ${foundData.methane} ppm
+CO₂: ${foundData.co2} ppm
+Oxygen: ${foundData.oxygen}%`);
+        } else {
+          alert("No gas data available for this location.");
+        }
+      })
+      .addTo(map);
+
+    // Read gas data aloud
+    function readAloud() {
+      const text = gasData.map(data => 
+        At ${data.location}, methane is ${data.methane} ppm, carbon dioxide is ${data.co2} ppm, and oxygen is ${data.oxygen} percent.).join(' ');
+      const speech = new SpeechSynthesisUtterance(text);
+      speech.lang = 'en-US';
+      window.speechSynthesis.speak(speech);
+    }
+
+    // Stop reading aloud
+    function stopReading() {
+      window.speechSynthesis.cancel();
+    }
+  </script>
+</body>
+</html>
+[19-12-2024 14:39] .: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Detection System with Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gas Detection System</h1>
+        <p>Welcome to the Gas Detection System. Please ensure all systems are checked regularly.</p>
+        <p id="status">No gas detected. All systems are normal.</p>
+        <button onclick="readAloud()">Read Aloud</button>
+        <button onclick="stopReading()">Stop Reading</button>
+
+        <!-- Map container -->
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize map centered at a midpoint
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Coordinates for India (default center)
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Gas levels data for each location
+        var locations = [
+            { name: 'Bangalore', lat: 12.9716, lon: 77.5946, CO2: '350 ppm', O2: '21%', Methane: '0.02%', popup: 'Bangalore, India' },
+            { name: 'Mysore', lat: 12.2958, lon: 76.6394, CO2: '340 ppm', O2: '20.9%', Methane: '0.015%', popup: 'Mysore, India' },
+            { name: 'USA', lat: 37.0902, lon: -95.7129, CO2: '400 ppm', O2: '21%', Methane: '0.03%', popup: 'USA' },
+            { name: 'Sydney', lat: -33.8688, lon: 151.2093, CO2: '380 ppm', O2: '20.95%', Methane: '0.025%', popup: 'Sydney, Australia' },
+            { name: 'Jammu Kashmir', lat: 33.7782, lon: 76.5762, CO2: '355 ppm', O2: '21%', Methane: '0.022%', popup: 'Jammu Kashmir, India' },
+            { name: 'Goa', lat: 15.2993, lon: 74.1240, CO2: '345 ppm', O2: '21.02%', Methane: '0.02%', popup: 'Goa, India' },
+            { name: 'Kerala', lat: 10.8505, lon: 76.2711, CO2: '348 ppm', O2: '21%', Methane: '0.018%', popup: 'Kerala, India' }
+        ];
+
+        // Add markers for each location with gas level data
+        locations.forEach(function(location) {
+            L.marker([location.lat, location.lon]).addTo(map)
+                .bindPopup("<b>" + location.name + "</b><br>" + location.popup + "<br><strong>CO2:</strong> " + location.CO2 + "<br><strong>O2:</strong> " + location.O2 + "<br><strong>Methane:</strong> " + location.Methane)
+                .openPopup();
+        });
+
+        // Speech functionality
+        let speechSynthesis = window.speechSynthesis;
+        let isReading = false;
+        let speech;
+
+        function readAloud() {
+            if (!isReading) {
+                let statusText = document.getElementById('status').innerText;
+                speech = new SpeechSynthesisUtterance(statusText);
+                speech.lang = "en-US";
+                speechSynthesis.speak(speech);
+                isReading = true;
+            }
+        }
+
+        function stopReading() {
+            if (isReading) {
+                speechSynthesis.cancel();
+                isReading = false;
+            }
+        }
+    </script>
+</body>
+</html>
+[19-12-2024 14:51] Manjunath Soudi: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Detection System with Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .about-us {
+            background-color: #008CBA;
+        }
+
+        .about-us:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gas Detection System</h1>
+        <p>Welcome to the Gas Detection System. Please search for a location and get the gas concentration details.</p>
+
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" placeholder="Search for a place..." />
+        <button onclick="searchLocation()">Search</button>
+
+        <p id="status">No gas detected. All systems are normal.</p>
+
+        <button onclick="readAloud()">Read Aloud</button>
+        <button onclick="stopReading()">Stop Reading</button>
+
+        <!-- About Us Button -->
+        <button class="about-us" onclick="showAboutUs()">About Us</button>
+
+        <!-- Map container -->
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize map centered at a midpoint (India for the example)
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Coordinates for India (default center)
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Gas levels data for each location
+        var locations = [
+            { name: 'Bangalore', lat: 12.9716, lon: 77.5946, CO2: '350 ppm', O2: '21%', Methane: '0.02%', popup: 'Bangalore, India' },
+            { name: 'Mysore', lat: 12.2958, lon: 76.6394, CO2: '340 ppm', O2: '20.9%', Methane: '0.015%', popup: 'Mysore, India' },
+            { name: 'USA', lat: 37.0902, lon: -95.7129, CO2: '400 ppm', O2: '21%', Methane: '0.03%', popup: 'USA' },
+            { name: 'Sydney', lat: -33.8688, lon: 151.2093, CO2: '380 ppm', O2: '20.95%', Methane: '0.025%', popup: 'Sydney, Australia' },
+            { name: 'Jammu Kashmir', lat: 33.7782, lon: 76.5762, CO2: '355 ppm', O2: '21%', Methane: '0.022%', popup: 'Jammu Kashmir, India' },
+            { name: 'Goa', lat: 15.2993, lon: 74.1240, CO2: '345 ppm', O2: '21.02%', Methane: '0.02%', popup: 'Goa, India' },
+            { name: 'Kerala', lat: 10.8505, lon: 76.2711, CO2: '348 ppm', O2: '21%', Methane: '0.018%', popup: 'Kerala, India' }
+        ];
+
+        // Add markers for each location with gas level data
+        locations.forEach(function(location) {
+            L.marker([location.lat, location.lon]).addTo(map)
+                .bindPopup("<b>" + location.name + "</b><br>" + location.popup + "<br><strong>CO2:</strong> " + location.CO2 + "<br><strong>O2:</strong> " + location.O2 + "<br><strong>Methane:</strong> " + location.Methane)
+                .openPopup();
+        });
+
+        // Function to search and focus on a location
+        function searchLocation() {
+            var searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            var foundLocation = locations.find(function(location) {
+                return location.name.toLowerCase().includes(searchQuery);
+            });
+
+            if (foundLocation) {
+                // Pan map to the found location
+                map.setView([foundLocation.lat, foundLocation.lon], 10);
+
+                // Speak out the concentration details
+                var concentrationText = ${foundLocation.name}: CO2 concentration is ${foundLocation.CO2}, Methane concentration is ${foundLocation.Methane}, and Oxygen concentration is ${foundLocation.O2}.;
+                speakText(concentrationText);
+            } else {
+                alert("Location not found. Please try again.");
+            }
+        }
+
+        // Function to speak the provided text
+        function speakText(text) {
+            let speechSynthesis = window.speechSynthesis;
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-US";
+            speechSynthesis.speak(speech);
+        }
+
+        // Function to read aloud the status text
+        function readAloud() {
+            let statusText = document.getElementById('status').innerText;
+            speakText(statusText);
+        }
+
+        // Function to stop reading aloud
+        function stopReading() {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        // About Us section
+        function showAboutUs() {
+            alert("Gas Detection System\nDeveloped by: Your Name\nContact: your.email@example.com");
+        }
+    </script>
+</body>
+</html>
+[19-12-2024 14:59] Manjunath Soudi: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Detection System with Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .about-us {
+            background-color: #008CBA;
+        }
+
+        .about-us:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gas Detection System</h1>
+        <p>Welcome to the Gas Detection System. Please search for a location and get the gas concentration details.</p>
+
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" placeholder="Search for a place..." />
+        <button onclick="searchLocation()">Search</button>
+
+        <p id="status">No gas detected. All systems are normal.</p>
+
+        <button onclick="readAloud()">Read Aloud</button>
+        <button onclick="stopReading()">Stop Reading</button>
+
+        <!-- About Us Button -->
+        <button class="about-us" onclick="showAboutUs()">About Us</button>
+
+        <!-- Map container -->
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize map centered at a midpoint (India for the example)
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Coordinates for India (default center)
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Placeholder for storing the gas concentration data
+        var gasConcentrationData = {
+            "Bangalore": { CO2: '350 ppm', O2: '21%', Methane: '0.02%' },
+            "Mysore": { CO2: '340 ppm', O2: '20.9%', Methane: '0.015%' },
+            // Add more predefined gas concentration data as necessary
+        };
+
+        // Function to search for a location using Nominatim API
+        function searchLocation() {
+            var searchQuery = document.getElementById('searchInput').value;
+            if (searchQuery.trim() === "") {
+                alert("Please enter a valid location.");
+                return;
+            }
+
+            // Use Nominatim API to search for the location
+            var url = https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}&addressdetails=1;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var location = data[0];
+                        var lat = location.lat;
+                        var lon = location.lon;
+                        var name = location.display_name;
+
+                        // Pan the map to the found location
+                        map.setView([lat, lon], 10);
+
+                        // Add a marker and display the gas concentration
+                        var concentrationText = getGasConcentration(name);
+                        L.marker([lat, lon]).addTo(map)
+                            .bindPopup(<b>${name}</b><br><strong>CO2:</strong> ${concentrationText.CO2}<br><strong>O2:</strong> ${concentrationText.O2}<br><strong>Methane:</strong> ${concentrationText.Methane})
+                            .openPopup();
+
+                        // Speak out the concentration details
+                        speakText(Location found: ${name}. CO2 concentration is ${concentrationText.CO2}, Methane concentration is ${concentrationText.Methane}, and Oxygen concentration is ${concentrationText.O2}.);
+                    } else {
+                        alert("Location not found. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching location data:", error);
+                    alert("Error fetching location data. Please try again.");
+                });
+        }
+
+        // Function to get gas concentration based on location name
+        function getGasConcentration(locationName) {
+            return gasConcentrationData[locationName] || { CO2: 'Unknown', O2: 'Unknown', Methane: 'Unknown' };
+        }
+
+        // Function to speak the provided text
+        function speakText(text) {
+            let speechSynthesis = window.speechSynthesis;
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-US";
+            speechSynthesis.speak(speech);
+        }
+
+        // Function to read aloud the status text
+        function readAloud() {
+            let statusText = document.getElementById('status').innerText;
+            speakText(statusText);
+        }
+
+        // Function to stop reading aloud
+        function stopReading() {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        // About Us section
+        function showAboutUs() {
+            alert("Gas Detection System\nDeveloped by: Your Name\nContact: your.email@example.com");
+        }
+    </script>
+</body>
+</html>
